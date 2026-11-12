@@ -1,0 +1,314 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+
+  --color-paper: #fbf8f5;
+  --color-paper-2: #f3ece6;
+  --color-paper-3: #ece2da;
+  --color-line: #e0d3ca;
+  --color-ink: #1a1211;
+  --color-ink-soft: #5d4a47;
+  --color-brass: #a9873f;
+  --color-brass-2: #d4b377;
+
+  --color-wine-50: #fbf3f4;
+  --color-wine-100: #f6e3e6;
+  --color-wine-200: #e9c4cb;
+  --color-wine-300: #d597a4;
+  --color-wine-400: #ba6579;
+  --color-wine-500: #9d4056;
+  --color-wine-600: #842f45;
+  --color-wine-700: #6b2338;
+  --color-wine-800: #4d1827;
+  --color-wine-900: #34101a;
+  --color-wine-950: #1f080e;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+section[id] {
+  scroll-margin-top: 6.5rem;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-wine-700);
+  color: #fbf8f5;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-paper-2);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-wine-700);
+  border: 3px solid var(--color-paper-2);
+  border-radius: 999px;
+}
+
+/* ---------- type helpers ---------- */
+.display {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 120;
+  letter-spacing: -0.025em;
+  line-height: 0.94;
+}
+
+.eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ---------- textures & ambience ---------- */
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.28'/%3E%3C/svg%3E");
+}
+
+.hairlines {
+  background-image: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--color-wine-900) 8%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 25% 100%;
+}
+
+.hairlines-dark {
+  background-image: linear-gradient(
+    to right,
+    rgba(251, 248, 245, 0.07) 1px,
+    transparent 1px
+  );
+  background-size: 25% 100%;
+}
+
+.glow-wine {
+  background: radial-gradient(
+    60% 55% at 78% 12%,
+    color-mix(in srgb, var(--color-wine-400) 26%, transparent),
+    transparent 70%
+  );
+}
+
+.tint-wine img {
+  filter: grayscale(1) contrast(1.08) brightness(0.98);
+  transition: filter 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.tint-wine:hover img {
+  filter: grayscale(0.22) contrast(1.03) brightness(1.02);
+}
+
+.arch {
+  border-radius: 999px 999px 6px 6px;
+}
+
+/* ---------- animations ---------- */
+@keyframes tp-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: tp-marquee 38s linear infinite;
+}
+.marquee-track.fast {
+  animation-duration: 26s;
+}
+.marquee-track.reverse {
+  animation-direction: reverse;
+}
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+
+@keyframes tp-pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.75;
+  }
+  70% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+.pulse-ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: #25d366;
+  animation: tp-pulse-ring 2.6s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+  z-index: -1;
+}
+
+@keyframes tp-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.tp-fade-up {
+  animation: tp-fade-up 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes tp-progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes tp-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+.float-slow {
+  animation: tp-float 7s ease-in-out infinite;
+}
+
+@keyframes tp-scroll-cue {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  45% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+.scroll-cue {
+  animation: tp-scroll-cue 2.4s ease-in-out infinite;
+}
+
+/* ---------- micro interactions ---------- */
+.link-draw {
+  position: relative;
+}
+.link-draw::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-draw:hover::after,
+.link-draw[data-active="true"]::after {
+  transform: scaleX(1);
+}
+
+.btn-wipe {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-wipe > span {
+  position: relative;
+  z-index: 2;
+}
+.btn-wipe::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--color-wine-950);
+  transform: translateY(101%);
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-wipe:hover::before {
+  transform: translateY(0);
+}
+.btn-wipe.light::before {
+  background: var(--color-paper);
+}
+
+.row-shift {
+  transition: background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.5s ease, padding 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee-track,
+  .float-slow,
+  .pulse-ring::before,
+  .scroll-cue,
+  .animate-ping {
+    animation: none !important;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
